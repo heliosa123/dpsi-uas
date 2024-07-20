@@ -28,6 +28,8 @@ router.post('/keluarkanBarang', BarangController.keluarkanBarang);
 router.get('/cekstok', BarangController.cekStokBarang);
 router.get('/cekstok/gudang', BarangController.cekStokBarangDiGudang);
 router.get('/cekstok/tanggal', BarangController.cekStokBarangPadaTanggal);
+router.post('/product', BarangController.addProduct);
+router.get('/product/:id', BarangController.getProductById);
 
 const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => {

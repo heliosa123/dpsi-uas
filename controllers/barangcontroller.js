@@ -2,6 +2,37 @@ const { db } = require('../config');
 
 class BarangController {
 
+   // New: Add Product Data
+   async addProduct(req, res) {
+    try {
+      const { idbarang, namabarang, deskripsi, kategori, satuan, stock, gudang, date } = req.body;
+
+      // Save the new Barang object to the 'barang' collection
+      const barangDoc = db.collection('barang').doc(idbarang);
+      await barangDoc.set({ idbarang, namabarang, deskripsi, kategori, satuan, stock, gudang, date, timestamp: new Date() });
+
+      res.status(201).json({ message: 'Product added successfully', product: { idbarang, namabarang, deskripsi, kategori, satuan, stock, gudang, date } });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  // New: Get Product by ID
+  async getProductById(req, res) {
+    try {
+      const { id } = req.params;
+      const productDoc = await db.collection('barang').doc(id).get();
+
+      if (!productDoc.exists) {
+        return res.status(404).json({ error: 'Product not found' });
+      }
+
+      res.status(200).json(productDoc.data());
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
   // UC1: Penerimaan Barang Masuk
   async terimaBarangMasuk(req, res) {
     try {
