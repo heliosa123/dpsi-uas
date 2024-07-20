@@ -39,7 +39,7 @@ class BarangController {
       const { idbarang, namabarang, deskripsi, kategori, satuan, stock, gudang, date } = req.body;
 
       // Validate PO or other business logic as necessary
-      const poSnapshot = await db.collection('purchaseOrders').where('idbarang', '==', idbarang).get();
+      const poSnapshot = await db.collection('barang').where('idbarang', '==', idbarang).get();
       if (poSnapshot.empty) {
         return res.status(400).json({ error: 'Invalid idbarang or PO not found' });
       }
