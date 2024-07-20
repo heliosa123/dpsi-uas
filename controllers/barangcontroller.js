@@ -45,7 +45,7 @@ class BarangController {
       }
 
       // Save the new Barang object to the 'barang' collection
-      const barangDoc = db.collection('barang').doc(idbarang);
+      const barangDoc = db.collection('logbarang').doc(idbarang);
       await barangDoc.set({ idbarang, namabarang, deskripsi, kategori, satuan, stock, gudang, date, timestamp: new Date() });
 
       // Update stock with Firestore transaction
@@ -86,7 +86,7 @@ class BarangController {
       });
 
       // Record the outgoing item in the 'barangKeluar' collection
-      const barangKeluarDoc = db.collection('barangKeluar').doc();
+      const barangKeluarDoc = db.collection('logbarang').doc();
       await barangKeluarDoc.set({ idbarang, stock, gudang, date, timestamp: new Date() });
 
       res.status(201).json({ message: 'Barang berhasil dikeluarkan', barang: { idbarang, stock, gudang, date } });
