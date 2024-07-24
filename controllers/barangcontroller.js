@@ -118,8 +118,11 @@ class BarangController {
 
 // UC4: Pengecekan Stok Barang di Gudang A atau B
 // UC4: Pengecekan Stok Barang di Gudang A atau B
+// UC4: Pengecekan Stok Barang di Gudang A atau B
 async cekStokBarangDiGudang(req, res) {
   try {
+    console.log('Request query parameters:', req.query); // Log query parameters
+
     const { gudang } = req.query; // Filter by gudang
     if (!gudang) {
       return res.status(400).json({ error: 'Gudang query parameter is required' });
@@ -134,6 +137,7 @@ async cekStokBarangDiGudang(req, res) {
     res.status(500).json({ error: error.message });
   }
 }
+
 
 
   // New: Pengecekan Stok Barang pada Tanggal Tertentu
