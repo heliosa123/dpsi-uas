@@ -116,26 +116,23 @@ class BarangController {
     }
   }
 
-  // UC4: Pengecekan Stok Barang di Gudang A atau B
-  async cekStokBarangDiGudang(req, res) {
-    try {
-      const { gudang, startDate, endDate } = req.query; // Filter by gudang and date range
-      let query = db.collection('stock').where('gudang', '==', gudang);
-
-      if (startDate) {
-        query = query.where('date', '>=', new Date(startDate));
-      }
-      if (endDate) {
-        query = query.where('date', '<=', new Date(endDate));
-      }
-
-      const snapshot = await query.get();
-      const stokBarang = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      res.status(200).json(stokBarang);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+// UC4: Pengecekan Stok Barang di Gudang A atau B
+async cekStokBarangDiGudang(req, res) {
+  try {
+    const { gudang } = req.query; // Filter by gudang
+    if (!gudang) {
+      return res.status(400).json({ error: 'Gudang query parameter is required' });
     }
+    
+    const query = db.collection('stock').where('gudang', '==', gudang);
+
+    const snapshot = await query.get();
+    const stokBarang = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    res.status(200).json(stokBarang);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
+}
 
   // New: Pengecekan Stok Barang pada Tanggal Tertentu
   async cekStokBarangPadaTanggal(req, res) {
